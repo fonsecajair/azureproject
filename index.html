@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>App na Nuvem - Azure</title>
+  <script>
+    async function buscarClima() {
+      const resposta = await fetch('https://wttr.in/Manaus?format=3'); // API simples
+      const clima = await resposta.text();
+      document.getElementById('resultado').innerText = clima;
+    }
+  </script>
+</head>
+<body>
+  <h1>App de Clima (Rodando no Azure!)</h1>
+  <button onclick="buscarClima()">Ver clima em Manaus</button>
+  <p id="resultado"></p>
+</body>
+</html>
