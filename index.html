@@ -3,14 +3,15 @@
 <head>
   <title>App na Nuvem - Azure</title>
   <script>
+    const url = 'https://api.open-meteo.com/v1/forecast?latitude=-3.1&longitude=-60.0&current_weather=true';
+
     async function buscarClima() {
       try {
-        const resposta = await fetch('https://wttr.in/Manaus?format=3');
-        if (!resposta.ok) {
-          throw new Error('Erro na requisição do clima');
-        }
-        const clima = await resposta.text();
-        document.getElementById('resultado').innerText = clima;
+        const resposta = await fetch(url);
+        if (!resposta.ok) throw new Error('Erro ao buscar clima');
+        const dados = await resposta.json();
+        const temp = dados.current_weather.temperature;
+        document.getElementById('resultado').innerText = `Temperatura em Manaus: ${temp} °C`;
       } catch (error) {
         document.getElementById('resultado').innerText = 'Não foi possível carregar o clima.';
         console.error(error);
@@ -18,8 +19,8 @@
     }
 
     window.onload = () => {
-      buscarClima(); // Atualiza ao carregar a página
-      setInterval(buscarClima, 300000); // Atualiza a cada 300000 ms = 5 minutos
+      buscarClima();
+      setInterval(buscarClima, 300000); // Atualiza a cada 5 minutos
     };
   </script>
 </head>
