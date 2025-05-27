@@ -3,30 +3,50 @@
 <head>
   <meta charset="UTF-8">
   <title>App na Nuvem - Azure</title>
+
   <script>
+    // URL da API Open-Meteo com coordenadas para Manaus (latitude e longitude)
     const url = 'https://api.open-meteo.com/v1/forecast?latitude=-3.1&longitude=-60.0&current_weather=true';
 
+    // Função assíncrona que busca o clima atual
     async function buscarClima() {
       try {
+        // Faz uma requisição HTTP GET para a URL da API
         const resposta = await fetch(url);
+
+        // Verifica se a resposta foi bem-sucedida
         if (!resposta.ok) throw new Error('Erro ao buscar clima');
+
+        // Converte a resposta para JSON
         const dados = await resposta.json();
+
+        // Extrai a temperatura dos dados retornados
         const temp = dados.current_weather.temperature;
+
+        // Atualiza o conteúdo do parágrafo com o resultado da temperatura
         document.getElementById('resultado').innerText = `Temperatura em Manaus: ${temp} °C`;
       } catch (error) {
+        // Em caso de erro, exibe uma mensagem na tela e no console
         document.getElementById('resultado').innerText = 'Não foi possível carregar o clima.';
         console.error(error);
       }
     }
 
+    // Quando a página for carregada:
     window.onload = () => {
-      buscarClima();
-      setInterval(buscarClima, 300000); // Atualiza a cada 5 minutos
+      buscarClima(); // Chama a função imediatamente
+
+      // Atualiza automaticamente a cada 5 minutos (300000 milissegundos)
+      setInterval(buscarClima, 300000);
     };
   </script>
 </head>
+
 <body>
+  <!-- Título principal da página -->
   <h1>App de Clima (Rodando no Azure!)</h1>
+
+  <!-- Parágrafo onde a temperatura será exibida -->
   <p id="resultado">Carregando clima...</p>
 </body>
 </html>
